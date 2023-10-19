@@ -28,6 +28,22 @@ async function run() {
         // await client.connect();
         // Send a ping to confirm a successful connection
         const brandCollection = client.db("brandDB").collection("brand")
+        const productCollection = client.db("productDB").collection("product")
+        //produuct route
+        app.post('/product', async (req, res) => {
+            const newProduct = req.body;
+            console.log(newProduct);
+            const result = await productCollection.insertOne(newProduct)
+            res.send(result)
+        })
+        app.get('/product/:brand', async (req, res) => {
+            const brand = req.params.brand;
+            const query = { brand: brand };
+            const cursor = productCollection.find(query);
+            const result = await cursor.toArray()
+            res.send(result)
+        })
+        //Brand route
         app.post('/brand', async (req, res) => {
             const newBrand = req.body;
             console.log(newBrand);
