@@ -116,6 +116,13 @@ async function run() {
             const result = await sliderCollection.insertOne(newSlider)
             res.send(result)
         })
+        app.get('/slider/:brand', async (req, res) => {
+            const brand = req.params.brand;
+            const query = { brand: brand };
+            const cursor = sliderCollection.find(query);
+            const result = await cursor.toArray()
+            res.send(result)
+        })
 
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
