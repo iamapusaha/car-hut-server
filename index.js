@@ -56,6 +56,26 @@ async function run() {
             console.log(result);
             res.send(result)
         })
+        app.patch('/product/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const newProduct = req.body;
+            const updateProduct = {
+                $set: {
+
+                    name: newProduct.name,
+                    brand: newProduct.brand,
+                    types: newProduct.types,
+                    price: newProduct.price,
+                    image: newProduct.image,
+                    rating: newProduct.rating,
+                    discription: newProduct.discription
+                }
+            }
+            const result = await productCollection.updateOne(filter, updateProduct, options)
+            res.send(result)
+        })
         //Brand route
         app.post('/brand', async (req, res) => {
             const newBrand = req.body;
