@@ -30,6 +30,7 @@ async function run() {
         const brandCollection = client.db("brandDB").collection("brand")
         const productCollection = client.db("productDB").collection("product")
         const cartCollection = client.db("cartDB").collection('cartItems')
+        const sliderCollection = client.db("sliderDB").collection('slider')
         //produuct route
         app.post('/product', async (req, res) => {
             const newProduct = req.body;
@@ -106,6 +107,13 @@ async function run() {
             const query = { _id: new ObjectId(id) };
             const result = await cartCollection.deleteOne(query);
             console.log(result);
+            res.send(result)
+        })
+        // slider collection
+        app.post('/slider', async (req, res) => {
+            const newSlider = req.body;
+            console.log(newSlider);
+            const result = await sliderCollection.insertOne(newSlider)
             res.send(result)
         })
 
